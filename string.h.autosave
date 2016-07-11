@@ -69,6 +69,8 @@ using namespace std;
 
     bool operator<=(String& other);
     bool operator>=(String& other);
+    
+    char& lastIndex();
 
 
 

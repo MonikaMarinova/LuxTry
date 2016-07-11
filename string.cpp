@@ -1,297 +1,373 @@
-#include<iostream>
-#include<InvalidIndexException.h>
 #include "string.h"
+#include "InvalidIndexException.h"
+#include <string.h>
 
-using namespace std;
-using namespace string;
-
-
-String::String(const char* str)
-:
-    capasity_(capasity),
-    size_(0),
-    buffer_(0)
-    {
-        size_=strlen(str);
-        capasity_=size_+1;
-        buffer_=new char[capasity_];
-        strcpy(buffer_,str);
-    }
-{}
-
-String::String(const String& other)
-    :
-      capasity_(capasity),
-      size_(0),
-      buffer_(0)
-      {
-          size_=strlen(str);
-          capasity_=size_+1;
-          buffer_=new char[capasity_];
-          strcpy(buffer_,other);
-      }
-
-{}
-
-int String::size(){
-    int count=0;
-    do{
-        count++;
-    }
-    while(this->buffer_[count]!= '\0');
-    return count+1;
+int String::size()
+{
+    int count;
+    char symbol= this->buffer_[0];
+    for(count=0; symbol!='\n'; count++)
+    {}
+    return count;
 }
 
-
-int String::lenght(){
-    int count=0;
-    do{
-        count++;
-    }
-    while(this->buffer_[count]!= '\0');
-    return count+1;
+int String::length()
+{
+    return size();
 }
 
-int String::capasity(){
-    return this->capasity_;
+int String::capacity()
+{
+    return this->capacity_;
 }
 
-bool String::empty(){
-    if(this->buffer_[0]=='\0')
+bool String::empty()
+{
+    if(this->size_==0)
         return true;
     else
         return false;
 }
 
-void String::clear(){
-    int index=0;
-    do{
-        this->buffer_[index]=0;
-        index++;
-    }
-    while(this->buffer_[index]!= '\0');
+void String::clear()
+{
+    this->buffer_[0]='\0';
+    this->size_=0;
 }
 
-char& String::operator[](int index){
+char& String::operator[](int index)
+{
     return this->buffer_[index];
 }
 
-char& String::at(int index){
-    if(index<0 || index > this.capasity_)
-       throw InvalidIndexException;
-    else return this->buffer_[index];
+char& String::at(int index)
+{
+    if (index < 0 || index > this->capacity_){
+        throw InvalidIndexException;
+    }
+    return this->buffer_[index];
 }
 
-ostream String::operator<<(ostream& out, const String& str){
-    for(int i=0;i<this->size_;i++)
-    out<<this->buffer_;
+
+ostream& String::operator<<(ostream& out)
+{
+    for(int i; i<this->size_; i++)
+        out << this->buffer_[i];
     return out;
 }
 
-bool String::operator==(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison==0)
-            return true;
-    else
-        return false;
-}
-
-bool String::operator!=(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison!=0)
-            return true;
-    else
-        return false;
-}
-
-bool String::operator>(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison>0)
-            return true;
-    else
-        return false;
-}
-
-bool String::operator<(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison<0)
-            return true;
-    else
-        return false;
-}
-
-bool String::operator>=(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison>=0)
-            return true;
-    else
-        return false;
-}
-
-bool String::operator<=(const String& other){
-    int comparison;
-    comparison=strcmp(this->String, other);
-    if(comparison<=0)
-            return true;
-    else
-        return false;
-}
-
-
-String& String::operator=(const String& other){
-int index=0;
-do
+bool String::operator==(String& other)
 {
-    if(this->size_>strlen(other))
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel==0)
+        return true;
+    else
+        return false;
+}
+
+bool String::operator!=(String& other)
+{
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel!=0)
+        return true;
+    else
+        return false;
+}
+
+bool String::operator>(String& other)
+{
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel>0)
+        return true;
+    else
+        return false;
+}
+
+bool String::operator<(String& other)
+{
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel<0)
+        return true;
+    else
+        return false;
+}
+
+bool String::operator>=(String& other)
+{
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel>=0)
+        return true;
+    else
+        return false;
+}
+
+bool String::operator<=(String& other)
+{
+    int isEquel;
+    isEquel=strcmp(this->buffer_, other.buffer_);
+    if(isEquel<=0)
+        return true;
+    else
+        return false;
+}
+
+String& String::operator=(const String& other)
+{
+    if(this->capacity_<other->capacity_)
     {
-        this->buffer_[index]
+        //Need more memory
     }
-    this->buffer_[index]=other[index];
-    index++;
-}while(other[index]!='\0'|| this->buffer_[index]!='\0');
-}
-
-String$ String::append(const String& other){
-    int index, secondIndex;
-    index=this->capasity_+1;
-    secondIndex=0;
-    do{
-        this->buffer_[index]=other[secondIndex];
-        index++;
-        secondIndex++;
-    }while(other[index]!='\0');
-    return this->buffer_;
-}
-
-String$ String::operator+=(const String& other){
-    int index, secondIndex;
-    index=this->capasity_+1;
-    secondIndex=0;
-    do{
-        this->buffer_[index]=other[secondIndex];
-        index++;
-        secondIndex++;
-    }while(other[index]!='\0');
-    return this->buffer_;
-}
-
-void String::push_back(char ch){
-    int index=this->size_;
-    this->buffer_[index]=ch;
-}
-
-String String::operator+(const String& other){
-    int firstIndex=this->size_;
-    int secondIndex=0;
-
-    do
+    for(int i; ;i++)
     {
-        this->buffer_[firstIndex]=other[secondIndex];
-        firstIndex++;
-        secondIndex++;
-    }while(other[secondIndex]!='\0');
-    return this->buffer_;
-}
-
-String String::operator+(const String& s1,const String& s2){
-    int firstIndex=strlen(s1), secondIndex=0;
-
-    do
-    {
-        s1[firstIndex]=s2[secondIndex];
-        firstIndex++;
-        secondIndex++;
-    }while(s2[secondIndex]!='\0');
-    return s1;
-}
-
-unsigned String::find(const String& str, unsigned pos){
-    for(int i=pos;i<capasity_-pos;i++)
-        for(int j=0;j<strlen(str);j++)
-        {
-            if(this->buffer_[i]!= str[j])
-                return -1;
-        }
-return i-strlen(str);
-}
-
-usigned String::find_firs_of(const String& str, pos){
-    for(int i=pos;i<capasity_-pos;i++)
-        for(int j=0;j<strlen(str);j++)
-        {
-            if(this->buffer_[i]!= str[j] && str[j]=='\0')
-                return -1;
-        }
-return i;
-}
-
-String String::substr(unsigned pos, unsigned n){
-    String sub;
-    for(int i=0;i<n;i++,pos++){
-        sub[i] = this->buffer_[pos];
+        this->buffer_[i]=other.buffer_[i];
+        if(other.buffer_[i]=='\0')
+            break;
     }
-    return sub;
 }
 
-public:
-class Iterator{
-    String str;
-    int index;
-    public:
-    Iterator(String s){
-        str=s;
-        index=0;
-    }
-   Iterator operator++(){
-       this->index++;
-   }
+Iterator Iterator::operator++ ()
+{
+    this->index++;
+}
 
-   Iterator operator++(int){
-      Iterator clone(*this);
-      ++index;
-      return clone;
-   }
-  bool operator==(const Iterator& other) const{
-      Iterator clone(*this);
-     do{
-          if(clone.str[index]!=other.str[index])
-             return false;
-          else
-              return true;
-              index++;
-      }while(clone.str[index]!= '\0');
-  }
+Iterator Iterator::operator++(int)
+{
+    Iterator clone (*this);
+    ++index;
+    return clone;
+}
+//
+bool Iterator::operator==(const Iterator& other)
+{
+    if(this->index!=other.index)
+        return false;
+    else
+        return true;
+}
 
-      bool operator!=(const Iterator& other) const{
-          Iterator clone(*this);
-         do{
-              if(clone.str[index]==other.str[index])
-                 return false;
-              else
-                  return true;
-                  index++;
-          }while(clone.str[index]!= '\0');
-      }
-};
+bool Iterator::operator!=(const Iterator& other)
+{
+    if(this->index==other.index)
+        return false;
+    else
+        return true;
+}
 
-Iterator Iterator::begin(){
+Iterator Iterator::begin()
+{
     Iterator clone(*this);
+    /*
     int index=clone.index;
     do{
         index++;
-        return clone;
     }while(clone.str[index]!='\0');
+    */
+    return clone;
 }
 
-Iterator Iterator::begin(){
+Iterator Iterator::end()
+{
     Iterator clone(*this);
-      do{
+    do{
         index++;
     }while(clone.str[index]!='\0');
+index++;
 return clone;
+}
+
+String& append(const String& other)
+{
+    int i;
+    for(i=0; ;i++)
+    {
+        if(this->buffer_[i]=='\0')
+            break;
+        i++;
+    }
+    for(int c=0; ;c++)
+    {
+        this->buffer_[i]=other.buffer_[c];
+        if(other.buffer_[c]=='\0')
+            break;
+        i++;
+    }
+}
+
+String& operator+=(const String& other)
+{
+    int i;
+    for(i=0; ;i++)
+    {
+        if(this->buffer_[i]=='\0')
+            break;
+        i++;
+    }
+    for(int c=0; ;c++)
+    {
+        this->buffer_[i]=other.buffer_[c];
+        if(other.buffer_[c]=='\0')
+            break;
+        i++;
+    }
+}
+
+void push_back(char ch)
+{
+        int i;
+    for(i=0; ;i++)
+    {
+        if(this->buffer_[i]=='\0')
+            break;
+        i++;
+    }
+    this->buffer_[i]=ch;
+    this->buffer_[i+1]='\0';
+}
+
+String operator+(const String& other)
+{
+    int i;
+    for(i=0; ;i++)
+    {
+        if(this->buffer_[i]=='\0')
+            break;
+        i++;
+    }
+    for(int c=0; ;c++)
+    {
+        this->buffer_[i]=other.buffer_[c];
+        if(other.buffer_[c]=='\0')
+            break;
+        i++;
+    }
+}
+
+String operator+(const String& s1, const String& s2)
+{
+    int i;
+    for (i=0; ;i++)
+    {
+        if(s1.buffer_[i]=='\0')
+            break;
+    }
+    for(int c=0; ;c++)
+    {
+        s1->buffer_[i]=s2->buffer_[c];
+        if(s2.buffer_[c]=='\0')
+            break;
+        i++;
+    }
+}
+
+unsigned find(const String& str, unsigned pos)
+{
+    unsigned index, indexOfFirstString;
+    index=pos;
+    indexOfFirstString=pos;
+    for(;index<this.size_;)
+    {
+        indexOfFirstString=index;
+        for(int i=0;i<str.size_; i++) //!
+        {
+            if(str.buffer_[i]=='\0')
+                return index;
+            if(this.buffer_[indexOfFirstString]=='\0')
+                return -1;
+            if(this.buffer_[indexOfFirstString]!=str.buffer_[i])
+            {
+                index++;
+                break;
+            }
+            indexOfFirstString++;
+        }
+    }
+    return -1;
+}
+
+unsigned find_first_of(const String& str, unsigned pos)
+{
+    unsigned index;
+    index=pos;
+    for(int i=0;;index++)
+    {
+        if(str.buffer_[i]==this.buffer_[index]&& str.buffer_[i]!='\0')
+            return index;
+        if(this.buffer_[index]=='\0')
+        {
+            index=pos;
+            i++;
+        }
+        if(str.buffer_[i]=='\0')
+            return -1;
+    }
+}
+
+String substr(unsigned pos, unsigned n)
+{
+    String result;
+    int i;
+    for(i=0;i<n;i++, pos++)
+    {
+        result->buffer_[i]=this.buffer_[pos];
+        if(this.buffer_[i]=='\0')
+            return -1;
+    }
+    result->buffer_[i]='\0';
+    return result;
+}
+
+String::String(unsigned capacity)
+    :
+      capacity_(capacity),
+      size_(0),
+      buffer_(new char[capacity])
+{}
+
+String::String(const char* str)
+    :
+      capacity_(0),
+      size_(0),
+      buffer_(0)
+{
+    size_=strlen(str);
+    capacity_=size_+1;
+    buffer_= new char[capacity_];
+    strcpy(buffer_,str);
+}
+/*
+String::String(const char *other)
+    :
+      capacity_(0),
+      size_(0),
+      buffer_(0)
+      {
+          size_=strlen(other);
+          capacity_=size_+1;
+          buffer_=new char[capasity_];
+          strcpy(buffer_,other);
+      }*/
+
+String::String(const String& other)
+    :
+      capacity_(other.capacity_),
+      size_(other.size_),
+      buffer_(other.buffer_)
+{}
+
+
+
+String::~String()
+{
+    delete [] buffer_;
+}
+
+
+
+char& String::lastIndex(){
+    return this->size_;
 }
