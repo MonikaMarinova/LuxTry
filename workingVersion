@@ -1,106 +1,21 @@
 #include <iostream>
 #include "/usr/include/string.h"
 #include "/usr/include/math.h"
-#include "/usr/include/stdlib.h"
-//#define N 8
-//#define p_num 1
+#define N 8
+#define p_num 1
+unsigned int arr[N]={0, 0, 0, 0, 0, 0, 0, 0};
+struct point{
+    unsigned char x, y;
+};
+
+point p[p_num];
 
 void makeCrossroads();
 int main()
 {
-    unsigned int p_num=0;
-    unsigned int N=0;
-    unsigned int temp[1000];
-    std::cout<<"Please input size of the array: ";
-    std::cin>>N;
-    for(int i=0 ; ; i++)
-    {
-        std::string n,m;
-        std::cout<<"Please input coordinates: ";
-        std::cin >> n;
-        std::cin >> m;
-        //std::cout<<n<<std::endl;
-        if(n=="end" || m=="end")
-            break;
-        p_num++;
-        temp[i] = atoi(n.c_str());
-        i++;
-        temp[i] = atoi(m.c_str());
-
-    }
-
-    unsigned int arr[N];
-    struct point{
-        unsigned char x, y;
-    };
-
-    point p[p_num];
-    for(int i=0, c=0 ; i<p_num ; i++, c++)
-    {
-        p[i].x = temp[c];
-        c++;
-        p[i].y = temp[c];
-    }
-
-
-
-
-
-
-    int i,j;
-
-    for(i = 0; i < p_num; i++)
-    {
-
-        arr[p[i].x] = arr[p[i].x] | (0x01<<p[i].y);
-
-        if(p[i].x > 0)
-        {
-            char offset = 0;
-            for(j = p[i].x - 1; j >= 0; j--)
-            {
-                offset ++;
-                // left bit <<(p.x - j) --> offset bit
-                //right bit >>(p.x - j)
-                if(p[i].y + offset < N)
-                {
-                    arr[j] = arr[j] | (0x01 << (p[i].y + offset));
-                }
-                if(p[i].y - offset >= 0)
-                {
-                    arr[j] = arr[j] | (0x01 << (p[i].y - offset));
-                }
-
-
-            }
-        }
-
-        if(p[i].x != N - 1) // check input data x > n-1
-        {
-            char offset = 0;
-            for(j = p[i].x + 1; j < N; j++)
-            {
-                offset++;
-                // left bit <<(p.x - j) --> offset bit
-                //right bit >>(p.x - j)
-                if(p[i].y + (p[i].x - j) < N && p[i].x+j<N-1)
-                {
-                    arr[j] = arr[j] | (0x01 << (p[i].y + offset));
-                }
-                if(p[i].y - (p[i].x - j) >= 0)
-                {
-                    arr[j] = arr[j] | (0x01 << (p[i].y - offset));
-                }
-            }
-        }
-
-
-    //std::cout << m <<"   " << n << std::endl;
-//    p[0].x = 3;
-//    p[0].y = 7;
-
-
-    //makeCrossroads();
+    p1.x = 2;
+    p1.y = 5;
+    makeCrossroads();
     for(int i=0 ; i<N ; i++)
         std::cout<<arr[i]<<std::endl;
     /*
@@ -133,16 +48,15 @@ int main()
         }
     }
     */
-    }
     return 0;
 }
-/*
+
 void makeCrossroads()
 {
+    int fl1=0, fl2=0, fl3=0, fl4=0;
     int i,j;
 
-    for(i = 0; i < p_num; i++)
-    {
+    for(i = 0; i < p_num; p++){
 
         arr[p[i].x] = arr[p[i].x] | (0x01<<p[i].y);
 
@@ -156,18 +70,18 @@ void makeCrossroads()
                 //right bit >>(p.x - j)
                 if(p[i].y + offset < N)
                 {
-                    arr[j] = arr[j] | (0x01 << (p[i].y + offset));
+                    arr[j] = arr[j] | (0x01 << (p[i].y + offset);
                 }
                 if(p[i].y - offset >= 0)
                 {
-                    arr[j] = arr[j] | (0x01 << (p[i].y - offset));
+                    arr[j] = arr[j] | (0x01 << (p[i].y - offset);
                 }
 
 
             }
         }
 
-        if(p[i].x != N - 1) // check input data x > n-1
+        if(p[i].x == N - 1) // check input data x > n-1
         {
             char offset = 0;
             for(j = p[i].x + 1; j < N; j++)
@@ -175,13 +89,13 @@ void makeCrossroads()
                 offset++;
                 // left bit <<(p.x - j) --> offset bit
                 //right bit >>(p.x - j)
-                if(p[i].y + (p[i].x - j) < N && p[i].x+j<N-1)
+                if(p[i].y + (p[i].x - j) < N)
                 {
-                    arr[j] = arr[j] | (0x01 << (p[i].y + offset));
+                    arr[j] = arr[j] | (0x01 << (p[i].y + offset);
                 }
                 if(p[i].y - (p[i].x - j) >= 0)
                 {
-                    arr[j] = arr[j] | (0x01 << (p[i].y - offset));
+                    arr[j] = arr[j] | (0x01 << (p[i].y - offset);
                 }
             }
         }
@@ -248,6 +162,6 @@ void makeCrossroads()
                 }
             }
         }
-    }
+    }*/
 }
-*/
+
