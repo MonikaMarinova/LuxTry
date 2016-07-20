@@ -1,68 +1,63 @@
 #include <iostream>
 
+int blackboard[8][8]={0};
+int availableMoves[8][2];
+int count=0;
+int checkPos(int y, int x);
+
+
 int main()
 {
-
-    int step, n;
-    std::cout<<"Please input number of numbers: ";
-    std::cin>>n;
-    std::cout<<"Please input step ";
-    std::cin>>step;
-    int numbers[n];
-    unsigned char convertedNumbers[8*n];
-    for(int i=0; i<n ;i++)
-    {
-        std::cout<<"Please input number "<<i+1<< " ";
-        std::cin>>numbers[i];
-    }
-    for(int j=0, i=0;j<n;j++)
-    {
-        for(int c=128;c>0;c/=2, i++)
-        {
-            convertedNumbers[i]=((numbers[j]&c)==c);
-        }
-    }
-    for(int i=0; i<n*8; i+=step)
-    {
-        if(convertedNumbers[i]==0)
-            convertedNumbers[i]=1;
-        else
-            convertedNumbers[i]=0;
-    }
-    /*
-    for(int i=0; i<n*8; i++)
-        std::cout<<(int)convertedNumbers[i];
-    std::cout<< std::endl;
-    */
-    /*
-    int allConvertedNumbers[n][8];
-    for (int i=0, j=0, c=0; j<n; i++, c++)
-    {
-        allConvertedNumbers[j][i]=convertedNumbers[c];
-        if(i==7)
-        {
-            i=0;
-            j++;
-        }
-    }
-    */
-    unsigned char answear[n];
-    unsigned char b;
-    for(int j=0; j<n; j++)
-    {
-        answear[j]=0;
-        b= 0x80;
-        for(int i=0; i < 8; i++)
-        {
-            answear[j] += convertedNumbers[j*8+i]*b;
-            //std::cout<< (int)convertedNumbers[i] <<" : "<< (int)b <<std::endl;
-            b = b >> 1;
-        }
-
-    }
-    for(int i=0; i<n; i++)
-    {
-        std::cout<<(int)answear[i]<<std::endl;
-    }
+    int x, y;
+    availableMoves[0][0]=2;
+    availableMoves[0][1]=1;
+    availableMoves[1][0]=2;
+    availableMoves[1][1]=-1;
+    availableMoves[2][0]=1;
+    availableMoves[2][1]=-2;
+    availableMoves[3][0]=-1;
+    availableMoves[3][1]=-2;
+    availableMoves[4][0]=-2;
+    availableMoves[4][1]=-1;
+    availableMoves[5][0]=-2;
+    availableMoves[5][1]=1;
+    availableMoves[6][0]=-1;
+    availableMoves[6][1]=2;
+    availableMoves[7][0]=1;
+    availableMoves[7][1]=2;
+    y=0;
+    x=4;
+    blackboard[0][4]=1;
+    checkPos(y, x);
+    std::cout<<"Moves: "<<count<<std::endl;
     return 0;
 }
+
+int checkPos(int y, int x)
+{
+    int res = 0;
+
+    for(int i=0; i<8; i++)
+        //for(int j=0; j<2; j++)
+        {
+            if((y+availableMoves[i][1] < 8) && (y+availableMoves[i][1] >= 0) &&
+               (x+availableMoves[i][0] < 8) && (x+availableMoves[i][0] >= 0))
+            if(blackboard[y+availableMoves[i][1]][x+availableMoves[i][0]]!=1)
+            {
+                res = 1;
+                count++;
+                blackboard[y+availableMoves[i][1]][x+availableMoves[i][0]]=1;
+                if(checkPos(y+availableMoves[i][1], x+availableMoves[i][0]) == 0)
+                    blackboard[y+availableMoves[i][1]][x+availableMoves[i][0]]= 0;
+
+            }
+        }
+    if(count==64)
+    {
+        std::cout<<"WIN!";
+        return res;
+    }
+
+    return res;
+}
+
